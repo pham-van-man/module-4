@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cấu hình Hòm Thư Điện Tử</title>
+</head>
+<body>
+<h1>Cấu hình Hòm Thư</h1>
+<form th:action="@{/saveConfig}" th:object="${mailConfig}" method="post">
+    <label for="language">Ngôn ngữ:</label>
+    <select id="language" name="language" th:field="*{language}">
+        <option value="English">English</option>
+        <option value="Vietnamese">Vietnamese</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Chinese">Chinese</option>
+    </select><br><br>
+    <label for="pageSize">Số lượng email trên mỗi trang:</label>
+    <select id="pageSize" name="pageSize" th:field="*{pageSize}">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select><br><br>
+    <button type="submit">Lưu cấu hình</button>
+</form>
+<h2>Cấu hình hiện tại</h2>
+<p>Ngôn ngữ: <span th:text="${mailConfig.language}"></span></p>
+<p>Số email hiển thị mỗi trang: <span th:text="${mailConfig.pageSize}"></span></p>
+</body>
+</html>
