@@ -6,22 +6,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MailConfigController {
     private MailConfig mailConfig = new MailConfig();
 
+    @ModelAttribute("mailConfig")
+    public MailConfig getMailConfig() {
+        return mailConfig;
+    }
+
     @GetMapping("/")
     public String getMailConfig(Model model) {
-        model.addAttribute("mailConfig", mailConfig);
         return "home";
     }
 
     @PostMapping("/saveConfig")
-    public String saveMailConfig(@ModelAttribute MailConfig mailConfig, RedirectAttributes redirectAttributes) {
+    public String saveMailConfig(@ModelAttribute MailConfig mailConfig) {
         this.mailConfig = mailConfig;
-        redirectAttributes.addFlashAttribute("mailConfig", this.mailConfig);
         return "redirect:/";
     }
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Song</title>
+</head>
+<body>
+<h1>Upload a new song</h1>
+<a th:href="@{/}">
+    Back to song list
+</a>
+<form method="post" enctype="multipart/form-data" action="/upload" th:object="${songForm}">
+    <label>Song Name:</label>
+    <input type="text" th:field="*{name}" required /><br/><br/>
+    <label>Artist:</label>
+    <input type="text" th:field="*{artist}" required /><br/><br/>
+    <label>Genre:</label>
+    <input type="text"th:field="*{genre}"required /><br/><br/>
+    <label>Upload Song:</label>
+    <input type="file" th:field="*{filePath}" accept=".mp3,.wav,.ogg,.m4p" required /><br/><br/>
+    <button type="submit">Upload</button>
+</form>
+</body>
+</html>
