@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/search" th:object="${search}">
+    Search:
+    <input type="text" th:field="*{keyword}">
+</form>
+<a href="/add">Add New Product</a>
+<span th:text="${messages}" style="color: green"></span>
+<table th:if="${!productList.isEmpty()}">
+    <tr>
+        <th>STT</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="product, status : ${productList}">
+        <td th:text="${status.count}"></td>
+        <td><a th:href="@{/{id}/update (id=${product.id})}" th:text="${product.name}"></a></td>
+        <td th:text="${product.price}"></td>
+        <td><a th:href="@{/{id}/update (id=${product.id})}">Edit</a></td>
+        <td><a th:href="@{/{id}/delete (id=${product.id})}">Delete</a></td>
+    </tr>
+</table>
+<span th:if="${productList.isEmpty()}" style="color: gray;">Nothing</span>
+</body>
+</html>
