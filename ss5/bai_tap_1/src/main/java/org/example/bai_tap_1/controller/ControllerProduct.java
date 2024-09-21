@@ -1,7 +1,6 @@
 package org.example.bai_tap_1.controller;
 
 import org.example.bai_tap_1.model.Product;
-import org.example.bai_tap_1.model.Search;
 import org.example.bai_tap_1.service.ServiceProduct;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +13,9 @@ import java.util.List;
 public class ControllerProduct {
     private final ServiceProduct serviceProduct;
     private Product product = new Product();
-    private Search keyword = new Search("");
 
     public ControllerProduct(ServiceProduct serviceProduct) {
         this.serviceProduct = serviceProduct;
-    }
-
-    @ModelAttribute("search")
-    public Search search() {
-        return keyword;
     }
 
     @ModelAttribute("product")
