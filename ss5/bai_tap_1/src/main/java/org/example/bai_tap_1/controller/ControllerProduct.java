@@ -35,7 +35,7 @@ public class ControllerProduct {
     }
 
     @GetMapping("/view")
-    public String add() {
+    public String view() {
         return "view";
     }
 

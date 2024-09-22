@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{~/static/dist/css/bootstrap.min.css}">
+</head>
+<body class="container">
+<form th:object="${blog}">
+    Search:
+    <input type="text" th:field="*{content}">
+</form>
+<table class="table" th:if="${!blogs.isEmpty()}">
+    <tr th:each="blog :${blogs}">
+        <th class="col-9"><a th:text="${blog.title}" th:href="@{/__${blog.id}__}" class="text-muted"
+                             style="text-decoration: none"></a></th>
+        <th class="col-3"><a th:href="@{/{id}/delete (id=${blog.id})}" class="btn btn-danger">Delete</a></th>
+    </tr>
+    <tr>
+        <th class="col-12"><a class="btn btn-success" href="/add">Add</a></th>
+    </tr>
+</table>
+<span th:text="${message}" class="text-bg-success"></span>
+<span th:if="${blogs.isEmpty()}" style="color: gray">Nothing</span>
+<script th:src="@{~/static/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
