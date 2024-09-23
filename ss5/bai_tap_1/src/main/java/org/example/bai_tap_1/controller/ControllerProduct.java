@@ -1,7 +1,7 @@
 package org.example.bai_tap_1.controller;
 
 import org.example.bai_tap_1.model.Product;
-import org.example.bai_tap_1.service.ServiceProduct;
+import org.example.bai_tap_1.repository.RepositoryProduct;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +11,10 @@ import java.util.List;
 
 @Controller
 public class ControllerProduct {
-    private final ServiceProduct serviceProduct;
+    private final RepositoryProduct serviceProduct;
     private Product product = new Product();
 
-    public ControllerProduct(ServiceProduct serviceProduct) {
+    public ControllerProduct(RepositoryProduct serviceProduct) {
         this.serviceProduct = serviceProduct;
     }
 

@@ -1,5 +1,6 @@
 package org.example.bai_tap_1.config;
 
+import org.example.bai_tap_1.formatter.LocalDateFormatter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -33,7 +36,8 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@EnableJpaRepositories("org.example.bai_tap_1.repository")
+@EnableJpaRepositories("org.example")
+@EnableSpringDataWebSupport
 @ComponentScan("org.example")
 public class AppConfiguration implements ApplicationContextAware, WebMvcConfigurer {
     private ApplicationContext applicationContext;
@@ -124,5 +128,11 @@ public class AppConfiguration implements ApplicationContextAware, WebMvcConfigur
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        LocalDateFormatter formatter = new LocalDateFormatter("dd/MM/yyyy");
+        registry.addFormatter(formatter);
     }
 }

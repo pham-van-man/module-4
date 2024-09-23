@@ -1,54 +1,36 @@
 package org.example.bai_tap_1.service;
 
 import org.example.bai_tap_1.model.Product;
+import org.example.bai_tap_1.repository.RepositoryProduct;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import java.util.*;
+import java.util.List;
 
-@Transactional
 @Service
 public class ServiceProductImpl implements ServiceProduct {
-    @PersistenceContext
-    private EntityManager em;
+    private final RepositoryProduct repositoryProduct;
+
+    public ServiceProductImpl(RepositoryProduct repositoryProduct) {
+        this.repositoryProduct = repositoryProduct;
+    }
 
     @Override
     public List<Product> getProducts(Product product) {
-        String query = "SELECT p FROM Product p WHERE p.name LIKE :name AND p.price BETWEEN :minPrice AND :maxPrice";
-        TypedQuery<Product> q = em.createQuery(query, Product.class);
-        if (product.getName()==null){
-          product.setName("");
-        }
-        q.setParameter("name", "%"+product.getName()+"%");
-        if (product.getPrice() == 0) {
-            q.setParameter("minPrice", 0.0);
-            q.setParameter("maxPrice", 999999999.0);
-        } else {
-            q.setParameter("minPrice", product.getPrice());
-            q.setParameter("maxPrice", product.getPrice());
-        }
-        return q.getResultList();
+        return repositoryProduct.getProducts(product);
     }
 
     @Override
     public Product getProduct(int id) {
-        return em.find(Product.class, id);
+        return repositoryProduct.getProduct(id);
     }
 
     @Override
     public void saveProduct(Product product) {
-        if (product.getId() == 0) {
-            em.persist(product);
-        } else {
-            em.merge(product);
-        }
+        repositoryProduct.saveProduct(product);
     }
 
     @Override
     public void deleteProduct(int id) {
-        em.remove(em.find(Product.class, id));
+        repositoryProduct.deleteProduct(id);
     }
 }
