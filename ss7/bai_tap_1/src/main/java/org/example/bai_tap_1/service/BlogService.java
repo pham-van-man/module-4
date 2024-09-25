@@ -3,14 +3,13 @@ package org.example.bai_tap_1.service;
 import org.example.bai_tap_1.model.Blog;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BlogService {
-    List<Blog> getAllBlogs(Blog blog);
+    List<Blog> getBlogs();
 
-    Optional<Blog> getBlogById(Long id);
+    Blog getBlogById(Long id);
 
-    void updateBlog(Blog updatedBlog);
+    Blog saveBlog(Blog Blog);
 
     void deleteBlog(Long id);
 }

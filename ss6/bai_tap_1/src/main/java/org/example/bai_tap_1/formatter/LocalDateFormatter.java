@@ -20,7 +20,7 @@ public class LocalDateFormatter implements Formatter<LocalDate> {
     }
 
     @Override
-    public String print(LocalDate object, Locale locale) {
-        return object.format(dateFormatter);
+    public String print(LocalDate localDate, Locale locale) {
+        return localDate.format(dateFormatter);
     }
 }

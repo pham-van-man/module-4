@@ -17,10 +17,6 @@ public class BlogServiceImpl implements BlogService {
         this.blogRepository = blogRepository;
     }
 
-    public Blog createBlog(Blog blog) {
-        return blogRepository.save(blog);
-    }
-
     public List<Blog> getAllBlogs(Blog blog) {
         if (blog.getContent() == null) {
             blog.setContent("");

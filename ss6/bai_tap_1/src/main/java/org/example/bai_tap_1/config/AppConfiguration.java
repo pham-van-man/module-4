@@ -1,6 +1,8 @@
 package org.example.bai_tap_1.config;
 
+import org.example.bai_tap_1.converter.BlogConverter;
 import org.example.bai_tap_1.formatter.LocalDateFormatter;
+import org.example.bai_tap_1.model.Blog;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -133,6 +135,5 @@ public class AppConfiguration implements ApplicationContextAware, WebMvcConfigur
     @Override
     public void addFormatters(FormatterRegistry registry) {
         LocalDateFormatter formatter = new LocalDateFormatter("dd/MM/yyyy");
-        registry.addFormatter(formatter);
-    }
+        registry.addFormatter(formatter);    }
 }
