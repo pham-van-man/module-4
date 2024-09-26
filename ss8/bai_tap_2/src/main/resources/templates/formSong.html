@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section class="py-3 py-md-5 py-xl-8">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center" th:if="${isValid}" th:text="#{notify.success}"></h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card border border-dark rounded shadow-sm overflow-hidden">
+                    <div class="card-body p-0">
+                        <div class="row gy-3 gy-md-4 gy-lg-0 justify-content-center align-items-center">
+                            <div class="col-12 col-lg-6">
+                                <div class="row align-items-lg-center h-100">
+                                    <div class="col-12">
+                                        <form action="" method="post" th:object="${songDTO}">
+                                            <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
+                                                <div class="col-12">
+                                                    <label for="title" class="form-label">First Name <span
+                                                            class="text-danger">*</span> <span
+                                                            th:if="${#fields.hasErrors('title')}"
+                                                            th:errors="*{title}"></span></label>
+                                                    <input type="text" class="form-control" id="title"
+                                                           th:field="*{title}" required>
+                                                    <label for="artist" class="form-label">Last Name <span
+                                                            class="text-danger">*</span> <span
+                                                            th:if="${#fields.hasErrors('artist')}"
+                                                            th:errors="*{artist}"></span></label>
+                                                    <input type="text" class="form-control" id="artist"
+                                                           th:field="*{artist}" required>
+                                                    <label for="genre" class="form-label">BirthDate <span
+                                                            class="text-danger">*</span> <span
+                                                            th:if="${#fields.hasErrors('genre')}"
+                                                            th:errors="*{genre}"></span></label>
+                                                    <input type="date" class="form-control" id="genre"
+                                                           th:field="*{genre}" required>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-grid">
+                                                        <button class="btn btn-primary btn-lg" type="submit">Add new
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
