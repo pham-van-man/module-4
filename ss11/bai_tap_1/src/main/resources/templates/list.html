@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/dist/css/bootstrap.min.css}">
+</head>
+<body class="container">
+<form th:object="${blog}">
+    <label>
+        Title:
+        <input type="text" th:field="*{blog.title}">
+    </label>
+    <label>
+        Category:
+        <select th:field="*{category}">
+            <option value="" selected>Select category</option>
+            <option th:each="category : ${categories}"
+                    th:value="${category.id}"
+                    th:text="${category.name}">
+            </option>
+        </select>
+    </label>
+    <button type="submit">Search</button>
+</form>
+<table class="table" th:if="${!blogs.isEmpty()}">
+    <tr>
+        <th class="col-12" style="text-align: end">
+            <a th:href="@{/blog-category(sort='blog.title,asc', page=${blogs.number})}" style="text-decoration: none" class="text-muted">ID
+                ↑</a> |
+            <a th:href="@{/blog-category(sort='blog.title,desc', page=${blogs.number})}" style="text-decoration: none" class="text-muted">ID
+                ↓</a>
+        </th>
+    </tr>
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th></th>
+    </tr>
+    <tr th:each="blog :${blogs}">
+        <th class="col-6"><a th:text="${blog.blog.title}" th:href="@{/blog-category/__${blog.id}__}" class="text-muted"
+                             style="text-decoration: none"></a></th>
+        <th class="col-3" th:text="${blog.category.name}"></th>
+        <th class="col-3"><a th:href="@{/blog-category/delete/__${blog.id}__}" class="btn btn-danger">Delete</a></th>
+    </tr>
+    <tr>
+        <th>
+            <a th:if="${blogs.hasPrevious()}"
+               th:href="@{/blog-category(page=${blogs.number - 1}, sort=${sort})}"
+               style="text-decoration: none" class="text-muted">Previous</a>
+            <span th:text="${blogs.number + 1}"></span>/<span th:text="${blogs.totalPages}"></span>
+            <a th:if="${blogs.hasNext()}"
+               th:href="@{/blog-category(page=${blogs.number + 1}, sort=${sort})}"
+               style="text-decoration: none" class="text-muted">Next</a>
+        </th>
+    </tr>
+</table>
+<span th:text="${message}" class="text-bg-success"></span>
+<span th:if="${blogs.isEmpty()}" style="color: gray">Nothing</span><br>
+<a class="btn btn-success" href="/blog-category/add">Add</a>
+<script th:src="@{/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

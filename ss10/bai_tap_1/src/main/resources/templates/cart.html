@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .cart-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-price, .item-quantity {
+            margin-left: 20px;
+            text-align: right;
+        }
+
+        .remove-item {
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="cart-container">
+    <h2 th:text="'Giỏ hàng (' + ${cart.countItemQuantity()} + ')'"></h2>
+    <th:block th:each="product: ${cart.products}">
+        <div class="cart-item">
+            <div class="item-details">
+                <span th:text="${product.getKey().name}"></span><br>
+                <span th:text="'Mã SP: ' + ${product.getKey().id}">Mã SP: 4564</span>
+            </div>
+            <div class="item-price" th:text="${product.getKey().price} + 'đ'"></div>
+            <div class="item-quantity">
+                <a id="decrease_button" class="quantity-input" th:href="@{/add/__${product.getKey().id}__(action='-')}">-</a>
+                <span th:text="'Số lượng: ' + ${product.getValue()}" class="quantity-input"></span>
+                <a id="increase_button" class="quantity-input" th:href="@{/add/__${product.getKey().id}__(action='increment')}">+</a>
+            </div>
+            <div class="remove-item"><a th:href="@{/remove-product/__${product.getKey().id}__}">Xóa sản phẩm</a></div>
+        </div>
+    </th:block>
+    <div class="total" th:text="'Tổng cộng: ' + ${cart.countTotalPayment()} + ' đ'"></div>
+</div>
+<p>
+    <a href="/shop">Shop</a>
+</p>
+</body>
+</html>

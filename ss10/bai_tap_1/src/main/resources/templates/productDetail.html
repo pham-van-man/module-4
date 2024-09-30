@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Sản Phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .product-image {
+            flex: 1;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .btn-buy {
+            background-color: #ff851b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-buy:hover {
+            background-color: #ff5a1b;
+        }
+
+        .benefits {
+            margin-top: 20px;
+        }
+
+        .benefits li {
+            margin-bottom: 10px;
+        }
+
+        .benefits-title {
+            background-color: #f0ad4e;
+            padding: 5px;
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="product-image">
+        <img src="" th:alt="${product.name}"/>
+    </div>
+    <div class="product-info">
+        <h1 th:text="${product.name}"></h1>
+        <p th:text="'Mã SP: ' + ${id}"></p>
+        <p class="old-price" th:text="'Giá cũ: ' + ${product.price} + ' ₫'"></p>
+        <p class="price" th:text="'Giá mới: ' + ${product.price - 500} + ' ₫'">Giá mới: 350.000 ₫</p>
+        <a th:href="@{/add/__${product.id}__}">
+            <button class="btn-buy">MUA NGAY</button>
+        </a>
+        <ul class="benefits">
+            <li class="benefits-title">Lợi ích:</li>
+            <li>Tặng banner, thiệp (trị giá 20.000đ) miễn phí</li>
+            <li>Giảm ngay 20.000đ khi bạn tạo đơn hàng online</li>
+            <li>Giảm tiếp 3% cho đơn hàng bạn tạo ONLINE lần thứ 2, 5% cho đơn hàng bạn tạo ONLINE lần thứ 6 và 10%
+                cho
+                đơn hàng bạn tạo ONLINE lần thứ 12 (Chỉ áp dụng tại Tp. HCM)
+            </li>
+            <li>Giao miễn phí trong nội thành 63/63 tỉnh</li>
+            <li>Giao gấp trong vòng 2 giờ</li>
+            <li>Cam kết 100% hoàn lại tiền nếu bạn không hài lòng</li>
+            <li>Cam kết hoa tươi trên 3 ngày</li>
+        </ul>
+    </div>
+</div>
+<a href="/shop">Shop</a>
+</body>
+</html>
