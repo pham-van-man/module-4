@@ -17,6 +17,6 @@ public interface BlogCategoryRepository extends JpaRepository<BlogCategory, Comp
     @Query("SELECT b FROM BlogCategory b WHERE b.blog.title LIKE :title AND b.category.name LIKE :category")
     Page<BlogCategory> findByTitleAndCategory(@Param("title") String title, @Param("category") String category, Pageable pageable);
 
-    @Query("SELECT b FROM BlogCategory b WHERE b.category.id = :id")
+    @Query("SELECT b.blog FROM BlogCategory b WHERE b.category.id = :id")
     List<Blog> findByCategory(@Param("id") Long id);
 }
