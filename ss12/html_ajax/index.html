@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/tables/table-1/assets/css/table-1.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#search").click(function (event) {
+                event.preventDefault();
+                var content = $("#title").val();
+                $.ajax({
+                    url: "http://localhost:8080/api/blog",
+                    type: "GET",
+                    data: {
+                        search: content
+                    },
+                    success: function (data) {
+                        var content = "";
+                        for (let i = 0; i < data.content.length; i++) {
+                            content += "<tr class=\"content\">\n" +
+                                "                                    <td>\n" +
+                                "                                        <h6 class=\"mb-1\">" + data.content[i].title + "</h6>\n" +
+                                "                                    </td>\n" +
+                                "                                    <td>\n" +
+                                "                                        <span class=\"text-secondary fs-7\">" + data.content[i].title + "</span>\n" +
+                                "                                    </td>\n" +
+                                "                                    <td>\n" +
+                                "                                        <span class=\"badge rounded-pill bg-warning\">Edit</span>\n" +
+                                "                                    </td>\n" +
+                                "                                    <td>\n" +
+                                "                                        <span class=\"badge rounded-pill bg-danger\">Delete</span>\n" +
+                                "                                    </td>\n" +
+                                "                                </tr>";
+                        }
+                        $("#content").html(content)
+                    }
+                })
+            })
+            $("#show-more").click(function () {
+                var content = $("#title").val();
+                var size = $(".content").length
+                $.ajax({
+                    url: "http://localhost:8080/api/blog",
+                    type: "GET",
+                    data: {
+                        search: content,
+                        size: size + 2
+                    },
+                    success: function (data) {
+                        var content = "";
+                        for (let i = 0; i < data.content.length; i++) {
+                            content += "<tr class=\"content\">\n" +
+                                "                                    <td>\n" +
+                                "                                        <h6 class=\"mb-1\">" + data.content[i].title + "</h6>\n" +
+                                "                                    </td>\n" +
+                                "                                    <td>\n" +
+                                "                                        <span class=\"text-secondary fs-7\">" + data.content[i].title + "</span>\n" +
+                                "                                    </td>\n" +
+                                "                                    <td>\n" +
+                                "                                        <span class=\"badge rounded-pill bg-warning\">Edit</span>\n" +
+                                "                                    </td>\n" +
+                                "                                    <td>\n" +
+                                "                                        <span class=\"badge rounded-pill bg-danger\">Delete</span>\n" +
+                                "                                    </td>\n" +
+                                "                                </tr>";
+                        }
+                        $("#content").html(content)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<section class="bg-light py-3 py-md-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <form>
+                            <div class="row gy-2 overflow-hidden">
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="title" id="title"
+                                               placeholder="Title" required>
+                                        <label for="title" class="form-label">Title</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid my-3">
+                                        <button class="btn btn-primary btn-lg" type="submit" id="search">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-3 py-md-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9 col-xl-8">
+                <div class="card widget-card border-light shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="card-title widget-card-title mb-4">Blog</h5>
+                        <div class="table-responsive">
+                            <table class="table table-borderless bsb-table-xl text-nowrap align-middle m-0">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Content</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody id="content">
+                                </tbody>
+                            </table>
+                            <span class="badge rounded-pill bg-success" id="show-more">Show more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
