@@ -49,8 +49,8 @@ public class BlogCategoryServiceImpl implements BlogCategoryService {
     }
 
     @Override
-    public void saveBlogCategory(BlogCategory blogCategory) {
-        blogCategoryRepository.save(blogCategory);
+    public BlogCategory saveBlogCategory(BlogCategory blogCategory) {
+        return blogCategoryRepository.save(blogCategory);
     }
 
     @Override

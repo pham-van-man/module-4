@@ -15,7 +15,7 @@ public interface BlogCategoryService {
 
     void deleteBlogCategory(CompositeKey compositeKey);
 
-    void saveBlogCategory(BlogCategory blogCategory);
+    BlogCategory saveBlogCategory(BlogCategory blogCategory);
 
     List<Blog> findByCategory(Long id);
 }

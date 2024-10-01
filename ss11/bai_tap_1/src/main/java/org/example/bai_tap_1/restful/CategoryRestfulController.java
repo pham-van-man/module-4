@@ -5,10 +5,7 @@ import org.example.bai_tap_1.model.Category;
 import org.example.bai_tap_1.service.BlogCategoryService;
 import org.example.bai_tap_1.service.CategoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +25,24 @@ public class CategoryRestfulController {
         return ResponseEntity.ok(categoryService.getCategories());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<Blog>> getBlogsByCategory(@PathVariable Long id) {
         return ResponseEntity.ok(blogCategoryService.findByCategory(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.saveCategory(category));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.saveCategory(category));
     }
 }
