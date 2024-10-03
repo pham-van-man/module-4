@@ -26,15 +26,17 @@
 <table class="table" th:if="${!blogs.isEmpty()}">
     <tr>
         <th class="col-12" style="text-align: end">
-            <a th:href="@{/blog-category(sort='blog.title,asc', page=${blogs.number})}" style="text-decoration: none" class="text-muted">ID
+            <a th:href="@{/blog-category(sort='blog.title,asc', page=${blogs.number})}" style="text-decoration: none"
+               class="text-muted">ID
                 ↑</a> |
-            <a th:href="@{/blog-category(sort='blog.title,desc', page=${blogs.number})}" style="text-decoration: none" class="text-muted">ID
+            <a th:href="@{/blog-category(sort='blog.title,desc', page=${blogs.number})}" style="text-decoration: none"
+               class="text-muted">ID
                 ↓</a>
         </th>
     </tr>
     <tr>
-        <th>Title</th>
-        <th>Category</th>
+        <th th:text="#{title}"></th>
+        <th th:text="#{content}"></th>
         <th></th>
     </tr>
     <tr th:each="blog :${blogs}">
@@ -58,6 +60,8 @@
 <span th:text="${message}" class="text-bg-success"></span>
 <span th:if="${blogs.isEmpty()}" style="color: gray">Nothing</span><br>
 <a class="btn btn-success" href="/blog-category/add">Add</a>
+<a href="/blog-category?lang=en" style="text-decoration: none" class="text-muted">EN</a> |
+<a href="/blog-category?lang=vn" style="text-decoration: none" class="text-muted">VN</a>
 <script th:src="@{/dist/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
