@@ -15,13 +15,13 @@ public class UserInfo implements UserDetails {
     private final String password;
     private final List<GrantedAuthority> authorities;
 
-    public UserInfo(User User, List<Role> rolls) {
+    public UserInfo(User User, List<Role> roles) {
         email = User.getEmail();
         password = User.getPassword();
         authorities = new ArrayList<>();
-        if (rolls != null) {
-            for (Role roll : rolls) {
-                GrantedAuthority authority = new SimpleGrantedAuthority(roll.getRole());
+        if (roles != null) {
+            for (Role role : roles) {
+                GrantedAuthority authority = new SimpleGrantedAuthority(role.getRole());
                 authorities.add(authority);
             }
         }

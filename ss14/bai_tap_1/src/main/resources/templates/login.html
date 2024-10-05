@@ -14,8 +14,20 @@
     <div class="container" th:if="${error!=null}">
         <div class="row justify-content-md-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                <h2 class="mb-4 display-5 text-center" th:if="${title==null}">Need Help</h2>
-                <h2 class="mb-4 display-5 text-center" th:if="${title!=null}">Logout</h2>
+                <h1 class="mb-4 display-5 text-center text-danger" th:text="${error}"></h1>
+                <h2 class="mb-4 display-5 text-center">Need Help</h2>
+                <p class="text-secondary mb-5 text-center lead fs-4">Our team is available to provide prompt and helpful
+                    responses to all inquiries. You can reach us via phone, email, or by filling out the contact form
+                    below.</p>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            </div>
+        </div>
+    </div>
+    <div class="container" th:if="${logout!=null}">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h1 class="mb-4 display-5 text-center text-warning" th:text="${logout}"></h1>
+                <h2 class="mb-4 display-5 text-center">Need Help</h2>
                 <p class="text-secondary mb-5 text-center lead fs-4">Our team is available to provide prompt and helpful
                     responses to all inquiries. You can reach us via phone, email, or by filling out the contact form
                     below.</p>

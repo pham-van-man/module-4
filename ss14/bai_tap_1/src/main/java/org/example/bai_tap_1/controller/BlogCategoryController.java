@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("blog-category")
+@RequestMapping("/home")
 public class BlogCategoryController {
     private final BlogCategoryService blogCategoryService;
     private final CategoryService categoryService;
@@ -43,7 +43,7 @@ public class BlogCategoryController {
         return blogCategory;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String list(@ModelAttribute("blog") BlogCategory blogCategory, Model model, @PageableDefault(size = 1, sort = "blog.title", direction = Sort.Direction.ASC) Pageable pageable) {
         String sort = pageable.getSort().toString().replace(": ", ",");
         model.addAttribute("sort", sort);
@@ -51,41 +51,41 @@ public class BlogCategoryController {
         return "list";
     }
 
-    @GetMapping("delete/CompositeKey")
+    @GetMapping("/delete/CompositeKey")
     public String delete(@RequestParam() Long blogId, Long categoryId, RedirectAttributes redirectAttributes) {
         CompositeKey compositeKey = new CompositeKey(blogId, categoryId);
         blogCategoryService.deleteBlogCategory(compositeKey);
         redirectAttributes.addFlashAttribute("message", "Deleted Successfully");
-        return "redirect:/blog-category";
+        return "redirect:/home";
     }
 
-    @GetMapping("CompositeKey")
+    @GetMapping("/CompositeKey")
     public String edit(@RequestParam() Long blogId, Long categoryId) {
         CompositeKey compositeKey = new CompositeKey(blogId, categoryId);
         this.blogCategory = blogCategoryService.getBlogCategory(compositeKey);
-        return "redirect:/blog-category/view";
+        return "redirect:/home/view";
     }
 
-    @GetMapping("view")
+    @GetMapping("/view")
     public String view() {
         return "view";
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public String update(@ModelAttribute("blog") BlogCategory blogCategory, RedirectAttributes redirectAttributes) {
         blogService.saveBlog(blogCategory.getBlog());
         blogCategoryService.saveBlogCategory(blogCategory);
         this.blogCategory = new BlogCategory();
         redirectAttributes.addFlashAttribute("message", "Save successful");
-        return "redirect:/blog-category";
+        return "redirect:/home";
     }
 
-    @GetMapping("add")
+    @GetMapping("/add")
     public String add() {
         return "add";
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public String save(@ModelAttribute("blogDTO") BlogDTO blogDTO, RedirectAttributes redirectAttributes) {
         Blog blog = new Blog();
         blog.setTitle(blogDTO.getTitle());
@@ -95,6 +95,6 @@ public class BlogCategoryController {
         BlogCategory blogCategory = new BlogCategory(compositeKey, blog, blogDTO.getCategory());
         blogCategoryService.saveBlogCategory(blogCategory);
         redirectAttributes.addFlashAttribute("message", "Save successful");
-        return "redirect:/blog-category";
+        return "redirect:/home";
     }
 }

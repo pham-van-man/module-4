@@ -31,4 +31,8 @@ public class UserInfoService implements UserDetailsService {
         List<Role> userRole = rollRepository.findByUser(user);
         return new UserInfo(user, userRole);
     }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
