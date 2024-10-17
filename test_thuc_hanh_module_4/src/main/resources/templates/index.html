@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Đơn Hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container my-5">
+    <div th:if="${errorOrderDate != null}" th:text="${errorOrderDate}" style="color: red"></div>
+    <div th:if="${errorQuantity != null}" th:text="${errorQuantity}" style="color: red"></div>
+    <div style="width: 50%;">
+        <h2 class="mb-4">Thống kê đơn hàng</h2>
+        <div class="my-3">
+            <form action="/home/orderBetweenDates" method="get">
+                <div class="d-flex justify-content-between">
+                    <label class="form-label">Danh sách từ:
+                        <input type="date" name="startDate" required>
+                    </label>
+                    <label class="form-label">Đến:
+                        <input type="date" id="endDate" name="endDate" required>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </div>
+            </form>
+        </div>
+        <div class="my-3">
+            <form action="/home/topOrder" method="get">
+                <div class="d-flex justify-content-between">
+                    <span>Top: </span>
+                    <label>
+                        <select name="size">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                        </select>
+                    </label>
+                    <span>Đơn hàng có tong số tiền hàng cao nhất</span>
+                    <button type="submit" class="btn btn-primary">Xem top</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+        <tr>
+            <th>Số thứ tự</th>
+            <th>Mã đơn hàng</th>
+            <th>Tên sản pham</th>
+            <th>Giá</th>
+            <th>Trạng thái</th>
+            <th>Loại sản phẩm</th>
+            <th>Ngày mua</th>
+            <th>Số lượng</th>
+            <th>Tổng tiền</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="order, s : ${orders}">
+            <tr>
+                <td th:text="${s.count}"></td>
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.product.name}"></td>
+                <td th:text="${#numbers.formatDecimal(order.product.price, 1, 'POINT', 0, 'POINT')} + ' VND'"></td>
+                <td th:text="${order.product.status}"></td>
+                <td th:text="${order.product.category.name}"></td>
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.quantity}"></td>
+                <td th:text="${#numbers.formatDecimal(order.quantity * order.product.price, 1, 'POINT', 0, 'POINT')} + ' VND'"></td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                            th:data-bs-target="'#exampleModal' + ${order.id}">
+                        Sửa
+                    </button>
+                </td>
+            </tr>
+            <div class="modal fade" th:id="'exampleModal' + ${order.id}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Chỉnh sửa đơn hàng <span
+                                    th:text="${order.id}"></span></h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/order/edit" method="post" th:object="${ordersDTO}">
+                                <input type="hidden" name="id" th:value="${order.id}">
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-sm-4">Loại sản phẩm (<span
+                                            style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <select name="category" required class="form-control"
+                                                onchange="showProduct(this)">
+                                            <option value="" disabled selected>-- Chọn loại sản phẩm --</option>
+                                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                                    th:text="${category.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-sm-4">Sản phẩm (<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <select name="product" required class="form-control product">
+                                            <!-- Các sản phẩm sẽ được thêm vào đây -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-sm-4">Ngày mua (<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" name="orderDate" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-sm-4">Số lượng (<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="quantity" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+        <th:block th:if="${orders.hasPrevious()}">
+            <a style="text-decoration: none" class="text-muted" th:href="@{/home/order(page = ${orders.number - 1})}"><-<span
+                    th:text="${orders.number}"></span></a>
+        </th:block>
+        <span class="mx-3" th:text="${orders.number +1}"></span>
+        <th:block th:if="${orders.hasNext()}">
+            <a style="text-decoration: none" class="text-muted"
+               th:href="@{/home/order(page = ${orders.number + 1})}"><span th:text="${orders.number + 2}"></span>-></a>
+        </th:block>
+    </div>
+</div>
+<script>
+    function showProduct(selectElement) {
+        const categoryId = selectElement.value;
+        $.ajax({
+            url: `http://localhost:8080/product/list`,
+            method: 'POST',
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                id: categoryId
+            }),
+            success: function (data) {
+                $('.product').empty();
+                data.forEach(function (data) {
+                    $('.product').append(`
+                        <option value="${data.id}">${data.name}</option>
+                    `);
+                })
+            },
+            error: function (xhr, status, error) {
+                console.log('Lỗi khi : ', error);
+            }
+        });
+    }
+</script>
+</body>
+</html>

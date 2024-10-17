@@ -27,7 +27,11 @@ public class BlogRestfulController {
     @GetMapping("{id}")
     private ResponseEntity<Blog> getBlogById(@PathVariable Long id) {
         System.out.println("get");
-        return ResponseEntity.ok(blogService.getBlogById(id));
+        if (blogService.getBlogById(id) != null) {
+            return ResponseEntity.ok(blogService.getBlogById(id));
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
